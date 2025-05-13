@@ -1,5 +1,5 @@
 // app/pet/[id].js
-import {Stack, useLocalSearchParams} from 'expo-router';
+import {Stack, useLocalSearchParams, useRouter} from 'expo-router';
 import React, {useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native';
 import {FontAwesome6} from '@expo/vector-icons';
@@ -45,6 +45,13 @@ const allPetsData = {
 export default function PetDetailScreen() {
     const {id} = useLocalSearchParams();
     const [pet, setPet] = useState(null);
+    const router = useRouter();
+
+    const handleVideoPress = () => {
+        if (id){
+            router.push(`/video/${id}`);
+        }
+    };
 
     useEffect(() => {
         if (id) {
@@ -155,7 +162,7 @@ export default function PetDetailScreen() {
                     </View>
                     {pet.activityLog.map(log => (
                         <View key={log.id} style={[styles.logItem, log.type === 'alert' && styles.logItemAlert]}>
-                            <FontAwesome6 name={log.icon} size={20}
+                            <FontAwesome6 name={log.icon} size={16}
                                                     color={log.type === 'alert' ? 'red' : '#555'}
                                                     style={styles.logIcon}/>
                             <View style={styles.logTextContainer}>
@@ -165,15 +172,15 @@ export default function PetDetailScreen() {
                         </View>
                     ))}
                     <View style={styles.logFooterButtons}>
-                        <TouchableOpacity style={styles.logFooterButton}>
-                            <FontAwesome6 name={'video'} size={20}
+                        <TouchableOpacity style={styles.logFooterButton} onPress={handleVideoPress}>
+                            <FontAwesome6 name={'video'} size={16}
                                           color={'#34C759'} />
-                            <Text style={{color: '#34C759', fontSize: 18}}>视频</Text>
+                            <Text style={{color: '#34C759', fontSize: 14}}>视频</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.logFooterButton}>
-                            <FontAwesome6 name={'file-medical'} size={20}
+                            <FontAwesome6 name={'file-medical'} size={16}
                                           color={'red'} />
-                            <Text style={{color: 'red', fontSize: 18}}>检查</Text>
+                            <Text style={{color: 'red', fontSize: 14}}>检查</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
